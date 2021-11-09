@@ -15,23 +15,23 @@ with open('recipes.csv','r') as csv_file:
         for ingredient in line[1:]:
             ingredients.append(ingredient)
         recipes[dish] = ingredients
-print(recipes)
+
+
 class Cookbook:
 
     def __init__(self, recipes):
         self.recipes = recipes
         self.food_search_list = []
+        self.dish_match = []
 
     def search_recipes(self):
-        # returns key of recipes if food_search_list matches, otherwise returns no match
-        current_key = ''
+        # updates dish_match variable with list of matches
+        matches = []
         for key, value_list in self.recipes.items():
-            current_key = key
-            index_of_search_list = 0
-            for food in value_list:
-                if all(item in self.food_search_list for item in value_list):
-                    return current_key
-        return 'No match'
+            if all(item in self.food_search_list for item in value_list):
+                matches.append(key)
+        if bool(matches):
+            self.dish_match = matches
 
     def prompt(self):
         # prompts users to update the class search list
@@ -42,6 +42,14 @@ class Cookbook:
                 break
             food_search_list.append(food.rstrip('s'))
         self.food_search_list = food_search_list
+
+    def to_string_matches(self):
+        print('\nIngredients Available:')
+        for item in self.food_search_list:
+            print('-' + item)
+        print('\nDishes possible: ')
+        for item in self.dish_match:
+            print('-' + item)
         
     def to_string(self):
         # prints out the class dictionary to the terminal
@@ -53,7 +61,8 @@ class Cookbook:
 def main():
     cookbook = Cookbook(recipes)
     cookbook.prompt()
-    print(f'With these ingredients {cookbook.food_search_list} you are able to make: {cookbook.search_recipes()}')
+    cookbook.search_recipes()
+    cookbook.to_string_matches()
 
 main()
 
