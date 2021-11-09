@@ -1,13 +1,16 @@
 # Program where you input your ingredients and it tells you what recipe you can make
 
-recipes = {
-    'omlette': ['egg','onion','mushroom'],
-    'pizza' : ['flour','cheese','pepperoni'],
-    'hot dog' : ['hot dog','bun','ketchup'],
-    'peanut butter cookies': ['peanut butter','sugar','egg'],
-    'chili-glazed salmon' : ['salmon','chili','scanllion'],
-    'mac and cheese' : ['milk','macaroni','cheddar']
-}
+# Importing the recipes from recipes.txt file
+recipes = {}
+with open('recipes.txt', 'r') as f:
+    lines = f.readlines()
+    for line in lines:
+        split_line = line.split()
+        key = split_line[0].replace('_', ' ')
+        food_list = []
+        for item in split_line[1:]:
+            food_list.append(item.replace('_', ' '))
+        recipes[key] = food_list
 
 class Cookbook:
 
@@ -30,7 +33,7 @@ class Cookbook:
         # prompts users to update the class search list
         food_search_list = []
         while True:
-            food = input('Enter a food: ')
+            food = input('Enter a food (or blank to end): ')
             if food == '':
                 break
             food_search_list.append(food.rstrip('s'))
