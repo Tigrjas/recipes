@@ -9,16 +9,13 @@ recipes = {
 
 def search(search_item_list, dictionary):
     current_key = ''
-    number_of_matches = 0
-    for key, value in dictionary.items():
+    for key, value_list in dictionary.items():
         current_key = key
         index_of_search_list = 0
-        for food in value:
-            if food == search_item_list[index_of_search_list]:
-                number_of_matches += 1
-                index_of_search_list += 1
-                if number_of_matches == 3:
-                    return current_key
+        for food in value_list:
+            if all(item in search_item_list for item in value_list):
+                return current_key
+    return 'No match'
         
 # User input to search for recipe
 
