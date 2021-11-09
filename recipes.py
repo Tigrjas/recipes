@@ -1,17 +1,21 @@
 # Program where you input your ingredients and it tells you what recipe you can make
 
 # Importing the recipes from recipes.txt file
-recipes = {}
-with open('recipes.txt', 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        split_line = line.split()
-        key = split_line[0].replace('_', ' ')
-        food_list = []
-        for item in split_line[1:]:
-            food_list.append(item.replace('_', ' '))
-        recipes[key] = food_list
+import csv
 
+recipes = {}
+with open('recipes.csv','r') as csv_file:
+    csv_reader = csv.reader(csv_file)
+
+    next(csv_reader)
+
+    for line in csv_reader:
+        dish = line[0]
+        ingredients = []
+        for ingredient in line[1:]:
+            ingredients.append(ingredient)
+        recipes[dish] = ingredients
+print(recipes)
 class Cookbook:
 
     def __init__(self, recipes):
